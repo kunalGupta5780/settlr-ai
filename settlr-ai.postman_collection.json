@@ -1,0 +1,176 @@
+{
+  "info": {
+    "name": "Settlr AI - PayPal & Gemini Agentic Suite",
+    "_postman_id": "c1f7a8e2-8924-411a-963d-settlrapi2026",
+    "description": "Complete Postman API Collection for Settlr AI (PayPal Global Hackathon). Includes Chat-to-Invoice parsing with Gemini, PayPal Invoicing v2, Autonomous Agent Negotiation, and PayPal Orders Checkout v2.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "invoiceId",
+      "value": "INV-2026-081",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. System Health & PayPal Sandbox Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "status"]
+        },
+        "description": "Checks system online status, Gemini engine connectivity, and PayPal sandbox environment."
+      }
+    },
+    {
+      "name": "2. Get All Invoices & Metrics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices"]
+        },
+        "description": "Returns all active invoices, past due statuses, and cumulative freelance metrics."
+      }
+    },
+    {
+      "name": "3. Milestone Chat-to-Invoice (Gemini AI Parser)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"prompt\": \"Finished Design System & React 19 Migration for Apex Digital Labs: 28 hrs @ $100/hr, bill net 14\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/parse-chat",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "parse-chat"]
+        },
+        "description": "Extracts structured line items and generates an invoice draft using Gemini 1.5 JSON schema."
+      }
+    },
+    {
+      "name": "4. Issue PayPal Invoice (PayPal Invoicing v2 API)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/{{invoiceId}}/issue-paypal",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "{{invoiceId}}", "issue-paypal"]
+        },
+        "description": "Calls PayPal Invoicing v2 to issue and send an official invoice with a live payment link."
+      }
+    },
+    {
+      "name": "5. Simulate Past Due Trigger (Time Fast-Forward)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"days\": 7\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/{{invoiceId}}/simulate-past-due",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "{{invoiceId}}", "simulate-past-due"]
+        },
+        "description": "Fast-forwards demo clock to mark invoice overdue and wake up autonomous agents."
+      }
+    },
+    {
+      "name": "6. Agent-to-Agent Autonomous Negotiation Round",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"clientMessage\": \"We are facing Q4 budget reallocation. Can we split this into 2 installments?\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/{{invoiceId}}/agent-negotiate",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "{{invoiceId}}", "agent-negotiate"]
+        },
+        "description": "Triggers Settlr AI to evaluate the client AP bot's proposal against freelancer guardrails, enforce late fees, and counter."
+      }
+    },
+    {
+      "name": "7. Create PayPal Checkout Order (Orders v2 API)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/{{invoiceId}}/checkout-order",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "{{invoiceId}}", "checkout-order"]
+        },
+        "description": "Creates an authorized PayPal Checkout Order v2 for the negotiated settlement amount."
+      }
+    },
+    {
+      "name": "8. Settle & Trigger Autonomous Tax Reserve Sweep",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"PP-ORDER-AUTO-SETTLE\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/invoices/{{invoiceId}}/settle",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "invoices", "{{invoiceId}}", "settle"]
+        },
+        "description": "Captures PayPal payment, updates ledger, reconciles transaction fees, and sweeps 25% to tax reserve."
+      }
+    },
+    {
+      "name": "9. Get Active Financial Guardrails",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/guardrails",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "guardrails"]
+        },
+        "description": "Retrieves the freelancer's deterministic policy constraints for AI negotiations."
+      }
+    },
+    {
+      "name": "10. Reset Demo to Clean State",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/demo/reset",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "demo", "reset"]
+        },
+        "description": "Resets sample invoices, ledger, and negotiation transcripts for live hackathon demo runs."
+      }
+    }
+  ]
+}

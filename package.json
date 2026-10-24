@@ -1,0 +1,27 @@
+{
+  "name": "settlr-ai",
+  "version": "1.0.0",
+  "description": "Settlr AI - Autonomous Invoice-to-Cash & Agentic Negotiation Protocol for Freelancers (PayPal Hackathon)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "paypal",
+    "agentic-ai",
+    "gemini",
+    "freelance",
+    "invoicing",
+    "autonomous-agents",
+    "checkout"
+  ],
+  "author": "Kunal Gupta",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
