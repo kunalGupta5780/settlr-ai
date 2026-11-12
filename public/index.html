@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Settlr AI — Autonomous Invoice-to-Cash & Agentic Negotiation Protocol</title>
+  <title>Settlr AI — Freelance Cash Flow Workspace</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -55,24 +55,17 @@
             <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">Settlr</span>
             <span class="text-xs px-2 py-0.5 rounded-full font-bold bg-paypal-blue/20 text-paypal-light border border-paypal-blue/40">AI AGENT</span>
           </div>
-          <p class="text-xs text-slate-400 font-medium">Autonomous Freelance Cash Flow & A2A Settlement Protocol</p>
+          <p class="text-xs text-slate-400 font-medium">Freelance cash flow workspace</p>
         </div>
       </div>
 
       <!-- Live Engine Badges -->
-      <div class="hidden lg:flex items-center space-x-3 text-xs">
-        <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-slate-300 font-mono">Gemini 1.5 Agentic Core</span>
+      <div class="hidden lg:flex items-center gap-2">
+        <div id="runtime-status" class="runtime-status" data-mode="checking" role="status" aria-live="polite">
+          <span class="runtime-dot"></span>
+          <span id="runtime-mode-label">Checking connections</span>
         </div>
-        <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
-          <i data-lucide="credit-card" class="w-3.5 h-3.5 text-paypal-light"></i>
-          <span class="text-slate-300 font-mono">PayPal Agent Toolkit</span>
-        </div>
-        <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-800/40 text-emerald-400">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          <span>Auto-Enforce Guardrails</span>
-        </div>
+        <div class="runtime-pill"><i data-lucide="shield-check"></i><span>Policy guardrails</span></div>
       </div>
 
       <!-- Quick Actions -->
@@ -102,11 +95,11 @@
   </header>
 
   <!-- DEMO STAGE GUIDE NOTIFICATION (Judges Banner) -->
-  <div id="demo-banner" class="bg-gradient-to-r from-indigo-950/70 via-slate-900 to-paypal-dark/70 border-b border-indigo-500/20 py-2.5 px-4">
+  <div id="demo-banner" class="walkthrough-banner bg-gradient-to-r from-indigo-950/70 via-slate-900 to-paypal-dark/70 border-b border-indigo-500/20 py-2.5 px-4">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between text-xs gap-2">
       <div class="flex items-center space-x-2">
         <span class="px-2 py-0.5 rounded font-bold bg-indigo-500 text-white uppercase text-[10px] tracking-wider">HACKATHON WALKTHROUGH</span>
-        <span id="demo-guide-text" class="text-slate-300">Click <b>"3-Min Hackathon Demo"</b> to watch the autonomous payment lifecycle: Milestone Chat &rarr; PayPal Invoice &rarr; Past Due &rarr; A2A Bot Negotiation &rarr; PayPal Instant Settlement!</span>
+        <span id="demo-guide-text" class="text-slate-300">Walk through the demo: describe a milestone, review an invoice, negotiate a late payment, and record a simulated settlement.</span>
       </div>
       <div class="flex items-center space-x-2 font-mono text-[11px] text-slate-400">
         <span id="demo-step-indicator">Step 0 of 5</span>
@@ -118,8 +111,33 @@
   <!-- MAIN APP CONTAINER -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 space-y-6">
 
+    <section class="dashboard-hero" aria-labelledby="dashboard-title">
+      <div class="hero-copy">
+        <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span> FREELANCE CASH FLOW, IN ONE PLACE</div>
+        <h1 id="dashboard-title">Less chasing.<br><span>More getting paid.</span></h1>
+        <p>Turn a project update into an invoice, keep late payments moving, and see every settlement in one clear workspace.</p>
+        <div class="hero-actions">
+          <button id="hero-create-invoice" class="hero-primary"><i data-lucide="plus"></i><span>Create an invoice</span></button>
+          <span class="hero-trust"><i data-lucide="lock-keyhole"></i> Your rules stay in control</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+        <div class="hero-payment-card">
+          <div class="hero-card-top"><span class="hero-card-mark">S</span><span class="hero-card-state"><span></span> PAYMENT TRACKED</span></div>
+          <div class="hero-card-label">Latest settlement</div>
+          <div class="hero-card-amount">$3,200<span>.00</span></div>
+          <div class="hero-card-bottom"><span>CyberPulse Security</span><span class="hero-card-check"><i data-lucide="check"></i></span></div>
+          <div class="hero-card-progress"><span></span></div>
+          <div class="hero-card-footnote">Recorded in demo ledger</div>
+        </div>
+        <div class="hero-float-chip"><i data-lucide="sparkles"></i><span>Invoice-to-cash workflow</span></div>
+      </div>
+      <div class="hero-edge-label"><span>01</span> CASH FLOW OVERVIEW</div>
+    </section>
+
     <!-- KPI STATS OVERVIEW -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 lg:gap-4">
+    <div class="kpi-grid grid grid-cols-2 md:grid-cols-5 gap-3 lg:gap-4">
       
       <!-- Total Invoiced -->
       <div class="glass-panel p-4 rounded-xl border border-slate-800 flex flex-col justify-between">
@@ -136,36 +154,36 @@
       <!-- Collected Cash -->
       <div class="glass-panel p-4 rounded-xl border border-emerald-900/40 bg-emerald-950/10 flex flex-col justify-between">
         <div class="flex items-center justify-between text-emerald-400 text-xs">
-          <span>Settled (PayPal)</span>
+          <span>Settled in ledger</span>
           <i data-lucide="check-circle" class="w-4 h-4"></i>
         </div>
         <div class="mt-2">
           <div id="stat-total-collected" class="text-2xl font-bold font-mono text-emerald-400">$3,200</div>
-          <span class="text-[11px] text-emerald-500/80">Direct bank balance</span>
+          <span class="text-[11px] text-emerald-500/80">Recorded settlement value</span>
         </div>
       </div>
 
       <!-- Past Due (In Jeopardy) -->
       <div class="glass-panel p-4 rounded-xl border border-rose-900/40 bg-rose-950/10 flex flex-col justify-between">
         <div class="flex items-center justify-between text-rose-400 text-xs">
-          <span>Past Due / In Jeopardy</span>
+          <span>Past due</span>
           <i data-lucide="alert-triangle" class="w-4 h-4"></i>
         </div>
         <div class="mt-2">
           <div id="stat-total-past-due" class="text-2xl font-bold font-mono text-rose-400">$2,800</div>
-          <span class="text-[11px] text-rose-400/80">Auto-agent chasing</span>
+          <span class="text-[11px] text-rose-400/80">Needs follow-up</span>
         </div>
       </div>
 
       <!-- Tax Reserve Swept -->
       <div class="glass-panel p-4 rounded-xl border border-indigo-900/40 bg-indigo-950/10 flex flex-col justify-between">
         <div class="flex items-center justify-between text-indigo-400 text-xs">
-          <span>Auto-Tax Reserve (25%)</span>
+          <span>Tax reserve allocation</span>
           <i data-lucide="vault" class="w-4 h-4"></i>
         </div>
         <div class="mt-2">
           <div id="stat-tax-reserve" class="text-2xl font-bold font-mono text-indigo-300">$776</div>
-          <span class="text-[11px] text-indigo-400/80">Swept automatically</span>
+          <span class="text-[11px] text-indigo-400/80">Calculated in demo ledger</span>
         </div>
       </div>
 
@@ -177,14 +195,14 @@
         </div>
         <div class="mt-2">
           <div id="stat-active-negotiations" class="text-2xl font-bold font-mono text-amber-300">1 Active</div>
-          <span class="text-[11px] text-amber-400/80">Autonomous bot duel</span>
+          <span class="text-[11px] text-amber-400/80">Negotiation workflow</span>
         </div>
       </div>
 
     </div>
 
     <!-- MAIN INTERACTIVE WORKSPACE TABS -->
-    <div class="flex items-center space-x-2 border-b border-slate-800 pb-3">
+    <div class="workspace-nav flex items-center space-x-2 border-b border-slate-800 pb-3" role="tablist" aria-label="Settlr workspace">
       <button class="nav-tab px-4 py-2 rounded-lg text-xs font-bold transition flex items-center space-x-2 bg-slate-800 text-white" data-tab="pipeline">
         <i data-lucide="kanban" class="w-4 h-4 text-paypal-light"></i>
         <span>Invoice Pipeline</span>
@@ -217,7 +235,7 @@
       
       <!-- Visual Pipeline Stages Bar -->
       <div class="glass-panel p-4 rounded-xl border border-slate-800">
-        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Live Payment Lifecycle Pipeline</div>
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Invoice-to-cash workflow</div>
         <div class="grid grid-cols-5 gap-2 text-center text-xs">
           
           <div class="p-3 rounded-lg bg-slate-900 border border-slate-800 flex flex-col items-center">
@@ -237,12 +255,12 @@
 
           <div class="p-3 rounded-lg bg-violet-950/30 border border-violet-800/50 text-violet-300 flex flex-col items-center">
             <span class="font-bold">4. A2A NEGOTIATION</span>
-            <span class="text-[11px] text-violet-300/70 mt-1">Autonomous bot settlement</span>
+            <span class="text-[11px] text-violet-300/70 mt-1">Guardrailed negotiation demo</span>
           </div>
 
           <div class="p-3 rounded-lg bg-emerald-950/20 border border-emerald-800/40 text-emerald-400 flex flex-col items-center">
             <span class="font-bold">5. SETTLED</span>
-            <span class="text-[11px] text-emerald-400/70 mt-1">Funds in PayPal + Tax swept</span>
+            <span class="text-[11px] text-emerald-400/70 mt-1">Settlement recorded</span>
           </div>
 
         </div>
@@ -294,7 +312,7 @@
               <span class="text-slate-300 font-mono">Max 3 splits • Min 40% upfront • 3%/wk late fee</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-500">Autonomous Authority:</span>
+              <span class="text-slate-500">Demo approval limit:</span>
               <span class="text-emerald-400 font-mono">Up to $5,000 USD</span>
             </div>
           </div>
@@ -378,7 +396,7 @@
           <div id="settlement-action-container" class="hidden">
             <button id="btn-open-paypal-checkout" class="px-5 py-2.5 rounded-lg text-xs font-extrabold bg-[#FFC439] hover:bg-[#F2BA36] text-[#003087] shadow-lg shadow-amber-500/20 transition flex items-center space-x-2 animate-bounce">
               <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="h-4 rounded" alt="PayPal">
-              <span>Execute Instant PayPal Settlement</span>
+              <span>Review settlement preview</span>
             </button>
           </div>
 
@@ -398,7 +416,7 @@
             <span>Conversational Milestone Invoicing</span>
           </h3>
           <p class="text-xs text-slate-400 mt-1">
-            Type or paste milestone deliverable notes. Gemini agent extracts line items, computes totals, formats contract terms, and generates ready-to-issue PayPal Invoicing v2 API payloads.
+            Type or dictate a milestone update. The parser turns it into invoice line items and a draft you can review before issuing.
           </p>
         </div>
 
@@ -454,7 +472,7 @@
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center space-x-1.5">
               <i data-lucide="check" class="w-4 h-4"></i>
-              <span>AI Extraction Succeeded — Ready for PayPal</span>
+              <span>Invoice draft ready to review</span>
             </span>
             <span id="preview-invoice-id" class="text-xs font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">INV-2026-083</span>
           </div>
@@ -562,7 +580,7 @@
               <span id="label-tax-reserve" class="font-mono text-emerald-400">25%</span>
             </div>
             <input type="range" id="input-tax-reserve" min="0" max="40" step="1" value="25" class="w-full accent-emerald-400">
-            <p class="text-[11px] text-slate-500">Portion of each settled PayPal transaction automatically credited to tax pool.</p>
+            <p class="text-[11px] text-slate-500">The demo ledger calculates a reserve allocation. It does not transfer funds.</p>
           </div>
 
           <!-- Save Button -->
@@ -587,18 +605,18 @@
             <div class="flex items-center space-x-2">
               <h3 class="text-base font-bold text-white flex items-center space-x-2">
                 <i data-lucide="receipt" class="w-5 h-5 text-emerald-400"></i>
-                <span>Autonomous PayPal Settlement Ledger</span>
+                <span>Settlement ledger</span>
               </h3>
               <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950/70 text-blue-400 border border-blue-800/40 font-mono">
                 POWERED BY AG GRID
               </span>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Real-time ledger transactions, fee deductions, and automated tax sweeps.</p>
+            <p class="text-xs text-slate-400 mt-1">Settlement records, estimated fees, and calculated tax reserve allocations.</p>
           </div>
           
           <div class="flex items-center space-x-4">
             <div class="text-right">
-              <span class="text-xs text-slate-500">Tax Reserve Accumulated:</span>
+              <span class="text-xs text-slate-500">Calculated tax reserve:</span>
               <div id="ledger-tax-reserve-total" class="text-lg font-bold font-mono text-indigo-400">$776.00</div>
             </div>
             <button id="btn-export-csv" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-300 transition flex items-center space-x-1.5">
@@ -614,7 +632,7 @@
             <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"></i>
             <input type="text" id="ledger-search-input" placeholder="Search transactions, clients..." class="w-full pl-9 pr-3 py-1.5 bg-slate-950/80 border border-slate-800 rounded-lg text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-paypal-blue transition">
           </div>
-          <span class="text-[11px] text-slate-500 font-mono">Live sorting • Multi-column filtering • Real-time stream</span>
+          <span class="text-[11px] text-slate-500 font-mono">Sort • Filter • Export</span>
         </div>
 
         <!-- AG Grid Container -->
@@ -635,7 +653,7 @@
           <div class="w-8 h-8 rounded-lg bg-white p-1 flex items-center justify-center">
             <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="h-5" alt="PayPal">
           </div>
-          <span class="font-bold text-sm tracking-wide">PayPal Agentic Checkout</span>
+          <span class="font-bold text-sm tracking-wide">Settlement preview</span>
         </div>
         <button id="btn-close-modal" class="text-white/80 hover:text-white">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -668,11 +686,11 @@
         <div class="pt-2 space-y-2">
           <button id="btn-confirm-paypal-payment" class="w-full py-3 rounded-xl bg-[#FFC439] hover:bg-[#F2BA36] text-[#003087] font-extrabold text-sm flex items-center justify-center space-x-2 shadow-lg transition">
             <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="h-4" alt="PayPal">
-            <span>Pay with PayPal</span>
+            <span>Record demo settlement</span>
           </button>
           
           <p class="text-center text-[10px] text-slate-500">
-            Simulates instant PayPal webhook receipt and automated ledger settlement.
+            Demo mode: no payment is initiated. This records a simulated settlement in the ledger.
           </p>
         </div>
       </div>
@@ -688,7 +706,7 @@
       <div class="flex items-center justify-between text-xs px-2">
         <span class="text-slate-400 font-mono flex items-center space-x-1.5">
           <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-          <span>Official PayPal Invoicing v2 Document</span>
+              <span>Invoice preview · demo data</span>
         </span>
         <div class="flex items-center space-x-2">
           <button id="btn-print-doc" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1">
@@ -710,7 +728,7 @@
           <div>
             <div class="flex items-center space-x-2 mb-2">
               <span class="text-2xl font-black tracking-tight text-[#003087]">INVOICE</span>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-50 text-paypal-blue font-bold border border-blue-200">PAYPAL INVOICING v2</span>
+              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-50 text-paypal-blue font-bold border border-blue-200">DEMO TEMPLATE</span>
             </div>
             <p id="doc-inv-number" class="font-mono text-sm font-bold text-slate-600">INV-2026-081</p>
           </div>
@@ -769,8 +787,8 @@
               <i data-lucide="qr-code" class="w-14 h-14 text-slate-800"></i>
             </div>
             <div class="text-[11px] text-slate-500">
-              <span class="font-bold text-slate-700">Scan to Pay via PayPal</span>
-              <p class="text-[10px]">Direct PayPal API Link</p>
+              <span class="font-bold text-slate-700">Payment link preview</span>
+              <p class="text-[10px]">Demo QR illustration</p>
             </div>
           </div>
 
@@ -794,7 +812,7 @@
         <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
           <div class="flex items-center space-x-2">
             <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="h-4 rounded" alt="PayPal">
-            <span>Processed securely via PayPal Invoicing v2</span>
+            <span>PayPal invoice preview · demo data</span>
           </div>
           <span class="font-mono">Settlr AI Autonomous Protocol</span>
         </div>
@@ -901,7 +919,7 @@
             </div>
 
             <p class="text-[10px] text-center text-slate-400">
-              This message was dispatched autonomously by Settlr AI on top of the PayPal Invoicing Platform.
+              This is a simulated client inbox preview for the Settlr AI demo.
             </p>
 
           </div>
@@ -918,10 +936,10 @@
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
       <div class="flex items-center space-x-2">
         <span class="w-2 h-2 rounded-full bg-paypal-blue"></span>
-        <span class="text-slate-400 font-medium">Settlr AI • Built for PayPal Global Hackathon</span>
+        <span class="text-slate-400 font-medium">Settlr AI • PayPal hackathon prototype</span>
       </div>
       <div>
-        <span>Autonomous Agent Invoicing • PayPal Invoicing v2 • Orders v2 Checkout • Gemini 1.5</span>
+        <span>PayPal + Gemini integration points • Demo simulation when credentials are absent</span>
       </div>
     </div>
   </footer>

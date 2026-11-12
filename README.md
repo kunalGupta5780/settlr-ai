@@ -1,4 +1,4 @@
-# 🚀 Settlr AI — Autonomous Invoice-to-Cash & Agent-to-Agent Settlement Engine
+# Settlr AI — Invoice-to-Cash Workspace for Freelancers
 > **Built for the PayPal Global Hackathon | Category: Agentic Commerce & Autonomous Finance**
 
 ![Settlr AI Banner](https://img.shields.io/badge/PayPal-Invoicing%20%26%20Checkout%20v2-0070BA?style=for-the-badge&logo=paypal&logoColor=white)
@@ -7,15 +7,17 @@
 
 ---
 
-## 💡 The Problem
-Freelancers and independent knowledge workers lose over **20 days per year** chasing past-due invoices, negotiating awkward payment delays, and worrying about late cash flow. Standard invoicing software is passive—it sends an email and hopes for the best. 
+## The problem
+Freelancers spend time creating invoices, following up on late payments, and deciding how to respond to requests for more time. Most invoicing tools help send a bill but leave the follow-up work to the freelancer.
 
-## 🤖 The Solution: Settlr AI
-**Settlr AI** is an autonomous financial operations manager for freelancers. It handles the **entire payment lifecycle without human intervention**:
-1. **Conversational Milestone Invoicing:** Freelancer drops a voice memo or Slack-style update $\rightarrow$ Gemini extracts line items and calls the **PayPal Invoicing API** to issue an official bill.
-2. **Autonomous Tone Escalation:** If unpaid past the due date, the agent escalates from gentle reminders to formal contractual notices.
-3. **Agent-to-Agent (A2A) Negotiation:** When the client's automated accounting bot requests an extension or installment split, Settlr evaluates the request against strict freelancer guardrails, enforces late fees, counters, and autonomously settles terms.
-4. **Instant PayPal Settlement:** Generates a direct **PayPal Checkout** order. Once paid, the ledger reconciles instantly, and **25% is automatically swept into a tax reserve pool**.
+## The solution
+**Settlr AI** is a financial workflow prototype for freelancers. It demonstrates how natural language, policy guardrails, and PayPal APIs could work together:
+1. **Draft from a milestone note:** A freelancer types or dictates a project update. Gemini can structure it into invoice line items when configured; the demo has a local fallback parser.
+2. **Review and issue:** The freelancer reviews a draft. With PayPal credentials configured, the server can create and send a PayPal Invoicing v2 invoice.
+3. **Negotiate within policy:** A simulated client AP bot requests a delay. Settlr drafts a response against the freelancer's guardrails; the client bot is part of the demo, not a live external agent.
+4. **Record a demo settlement:** The demo writes a settlement entry and calculates a tax reserve allocation. It does not initiate a checkout payment or transfer funds.
+
+The public Vercel deployment runs in **demo simulation mode**. Invoice and ledger state is held in memory and is not durable across serverless instances or cold starts.
 
 ---
 
@@ -48,19 +50,19 @@ Open **`http://localhost:3000`** in your browser.
 ---
 
 ## 🏆 The 3-Minute Hackathon Demo
-We built a dedicated **"3-Min Hackathon Demo"** button directly in the header! Click it to step through the complete 5-stage story:
-1. **Chat-to-Invoice:** Prompt converts into an itemized PayPal invoice draft.
-2. **Fast-Forward Clock:** An invoice crosses the due date and triggers the autonomous agent.
-3. **A2A Bot Negotiation:** Watch the Client AP Bot and Settlr Agent debate installment milestones and late fees with transparent AI Chain-of-Thought logs.
-4. **Consensus Reached:** The bots agree on 50% immediate deposit + 5% late fee.
-5. **Instant PayPal Settlement:** Settle via PayPal, confetti pops, tax reserve is swept, and the ledger reconciles.
+The **"3-Min Hackathon Demo"** button walks through a five-stage simulation:
+1. **Chat-to-invoice:** Convert a sample milestone note into a reviewable invoice draft.
+2. **Past-due scenario:** Mark a sample invoice overdue.
+3. **Negotiation:** A simulated client AP bot makes a request; Settlr drafts a response using the current guardrails.
+4. **Agreement:** The simulated client accepts the proposed terms.
+5. **Demo settlement:** Record a settlement in the in-memory ledger and calculate a tax reserve allocation. No payment is initiated and no funds are moved.
 
 ---
 
 ## 🎁 Hackathon Sponsor Prize Integrations
 This project incorporates 3 official sponsor tools from the hackathon guidelines to maximize prize eligibility:
 1. **AG Grid (Enterprise Data Grid Sponsor):**
-   - The **Autonomous Settlement Ledger** is rendered using **AG Grid Community** (`ag-theme-quartz-dark`), with real-time multi-column sorting, live search filtering, custom currency chips, and 1-click CSV data export.
+   - The **Settlement Ledger** is rendered using **AG Grid Community** (`ag-theme-quartz-dark`), with sorting, filtering, and CSV export.
 2. **Postman (API Platform Sponsor):**
    - A production-ready Postman collection is included at [`settlr-ai.postman_collection.json`](./settlr-ai.postman_collection.json), covering all 10 PayPal Invoicing, Orders Checkout, and Gemini Agent endpoints.
 3. **Render (Cloud Deployment Sponsor):**
@@ -89,17 +91,17 @@ This project incorporates 3 official sponsor tools from the hackathon guidelines
                                        ▼ (Consensus)
                          [ PayPal Orders Checkout v2 ]
                                        │
-                                       ▼ (Webhook Settlement)
-                         [ Autonomous Ledger & Tax Sweep ]
+                                       ▼ (Demo ledger update)
+                         [ Settlement + reserve allocation ]
 ```
 
-- **Frontend:** Glassmorphism Dark UI, Tailwind CSS, Lucide Icons, Canvas Confetti.
+- **Frontend:** Responsive dark workspace UI, Tailwind CSS, Lucide Icons, Canvas Confetti.
 - **Audio & Voice Layer:** Web Speech API for zero-friction voice dictation; Web Audio API Synthesizer for instant payment confirmation chimes.
-- **Client & Document Experience:** Built-in Client AP Email Inbox Simulator and Official PayPal Invoicing v2 PDF/Document Drawer.
+- **Client & Document Experience:** Simulated client inbox and invoice preview template.
 - **Enterprise Grid:** AG Grid Community (`ag-theme-quartz-dark`) with real-time multi-column sorting, live filtering, and CSV export.
 - **Backend:** Node.js, Express, REST APIs.
-- **Agent Intelligence:** Google Gemini 1.5 with Structured JSON Schema & Chain-of-Thought validation.
-- **Payment Infrastructure:** PayPal Invoicing v2, PayPal Checkout Orders v2, Sandbox webhooks.
+- **Agent Intelligence:** Gemini API integration with structured JSON responses and a rule-based fallback in demo mode.
+- **Payment Infrastructure:** PayPal Invoicing v2 API support when credentials are configured. Orders v2 checkout and webhook settlement are not wired into the demo UI.
 
 ---
 

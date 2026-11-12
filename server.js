@@ -19,12 +19,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // --- Health & Config Status ---
 app.get("/api/status", (req, res) => {
+  const geminiLive = geminiAgent.isConfigured();
+  const paypalLive = paypalService.isConfigured();
   res.json({
     appName: "Settlr AI",
     status: "online",
-    geminiLive: geminiAgent.isConfigured(),
-    paypalLive: paypalService.isConfigured(),
-    mode: (geminiAgent.isConfigured() && paypalService.isConfigured()) ? "FULL_LIVE" : "SANDBOX_SIMULATION",
+    geminiLive,
+    paypalLive,
+    paypalEnvironment: process.env.PAYPAL_ENVIRONMENT || "sandbox",
+    mode: (geminiLive && paypalLive) ? "CONNECTED" : "DEMO_SIMULATION",
     timestamp: new Date().toISOString()
   });
 });
@@ -197,24 +200,27 @@ app.post("/api/invoices/:id/checkout-order", async (req, res) => {
   }
 });
 
-// --- Settle Payment (PayPal Capture / Webhook Simulator) ---
+// --- Record a simulated settlement in the demo ledger ---
 app.post("/api/invoices/:id/settle", async (req, res) => {
   try {
     const invoice = ledgerStore.getInvoiceById(req.params.id);
     if (!invoice) return res.status(404).json({ error: "Invoice not found" });
 
-    const orderId = req.body.orderId || `PP-ORDER-${Date.now()}`;
-    const captureResult = await paypalService.captureOrder(orderId);
+    const transaction = {
+      transactionId: `SIM-TX-${Date.now().toString(36).toUpperCase()}`,
+      status: "RECORDED",
+      mode: "DEMO_SIMULATION"
+    };
 
     const settled = ledgerStore.settleInvoice(invoice.id, {
-      method: "PayPal Autonomous Checkout",
-      transactionId: captureResult.transactionId
+      method: "Settlr demo ledger",
+      transactionId: transaction.transactionId
     });
 
     res.json({
       success: true,
       invoice: settled,
-      transaction: captureResult,
+      transaction,
       metrics: ledgerStore.getMetrics()
     });
   } catch (err) {

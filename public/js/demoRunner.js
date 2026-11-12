@@ -1,5 +1,5 @@
 // public/js/demoRunner.js
-// 3-Minute Live Hackathon Demo Walkthrough Controller for Judges
+// 3-Minute demo walkthrough controller
 
 class DemoRunner {
   constructor() {
@@ -11,7 +11,7 @@ class DemoRunner {
       {
         stepNum: 1,
         title: "Step 1: Chat-to-Invoice (Gemini + PayPal Invoicing v2)",
-        guide: "Watch how natural language turns into an itemized PayPal invoice automatically without manual spreadsheet entry.",
+        guide: "Describe a milestone and review the invoice draft. Gemini is used when configured; this deployment uses the demo parser.",
         action: async () => {
           // Switch to chat invoicing tab
           window.app.switchTab("chat-invoicing");
@@ -27,7 +27,7 @@ class DemoRunner {
       {
         stepNum: 2,
         title: "Step 2: Time Fast-Forward (Invoice Past Due Trigger)",
-        guide: "Fast-forwarding 7 days: Invoice INV-2026-081 passes due date. Settlr's autonomous escalation engine triggers.",
+        guide: "Fast-forwarding 7 days marks the sample invoice past due and opens its negotiation workflow.",
         action: async () => {
           window.app.switchTab("pipeline");
           await window.app.simulatePastDue("INV-2026-081", 7);
@@ -36,7 +36,7 @@ class DemoRunner {
       {
         stepNum: 3,
         title: "Step 3: A2A Autonomous Bot Duel (Apex AP Bot vs. Settlr)",
-        guide: "The client's AP bot proposes a payment delay. Settlr checks freelancer guardrails, enforces late fees, and counters.",
+        guide: "The simulated client AP bot proposes a delay. Settlr checks the configured guardrails and drafts a counter.",
         action: async () => {
           window.app.switchTab("war-room");
           await window.app.triggerA2ARound();
@@ -45,7 +45,7 @@ class DemoRunner {
       {
         stepNum: 4,
         title: "Step 4: Consensus & PayPal Checkout Link Generated",
-        guide: "Client AP Bot agrees to terms (50% upfront + late fee). Instant PayPal settlement order is generated.",
+        guide: "The simulated client accepts the proposed terms. Review the settlement preview before recording it.",
         action: async () => {
           window.app.switchTab("war-room");
           await window.app.triggerA2ARound(); // Round 2 consensus
@@ -53,8 +53,8 @@ class DemoRunner {
       },
       {
         stepNum: 5,
-        title: "Step 5: Instant Settlement, Tax Sweep & Ledger Reconciliation",
-        guide: "Payment captured via PayPal! Webhook fires, funds logged, 25% tax reserve auto-swept, and confetti celebration!",
+        title: "Step 5: Demo Settlement & Ledger Update",
+        guide: "Record a simulated settlement. The ledger calculates a 25% tax reserve allocation; no payment or transfer occurs.",
         action: async () => {
           await window.app.openCheckoutModal("INV-2026-081");
           setTimeout(async () => {
@@ -90,7 +90,7 @@ class DemoRunner {
   async runNextStep() {
     if (this.currentStep >= this.totalSteps) {
       // Completed demo
-      this.updateBanner("🎉 Demo Complete! The entire invoice-to-cash lifecycle was autonomously resolved with PayPal & Gemini.", 5);
+      this.updateBanner("🎉 Demo complete. You reviewed an invoice, simulated a negotiation, and recorded a demo settlement.", 5);
       const nextStepBtn = document.getElementById("btn-demo-next-step");
       if (nextStepBtn) nextStepBtn.classList.add("hidden");
       this.isRunning = false;

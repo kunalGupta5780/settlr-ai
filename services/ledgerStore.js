@@ -14,7 +14,7 @@ class LedgerStore {
       minUpfrontPercent: 40,         // Minimum upfront payment required for installment plan
       gracePeriodDays: 3,            // Grace period before escalating tone
       autoSettleThreshold: 5000,     // Max USD amount agent can settle without human signoff
-      taxReservePercent: 25          // Automatic tax allocation to sweep into reserve
+      taxReservePercent: 25          // Demo ledger allocation; no funds are transferred
     };
 
     this.invoices = [
@@ -213,8 +213,8 @@ class LedgerStore {
 
     const settlementDetails = {
       settledAt: new Date().toISOString(),
-      method: settlementMeta.method || "PayPal Agent Settlement Protocol",
-      transactionId: settlementMeta.transactionId || `PP-TX-${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+      method: settlementMeta.method || "Demo settlement record",
+      transactionId: settlementMeta.transactionId || `SIM-TX-${Math.floor(1000000000 + Math.random() * 9000000000)}`,
       grossAmount: gross,
       fee: paypalFee,
       netReceived: netReceived,
@@ -231,14 +231,14 @@ class LedgerStore {
       date: new Date().toISOString().split("T")[0],
       invoiceId: invoice.id,
       client: invoice.clientName,
-      description: `PayPal Autonomous Settlement - ${invoice.projectTitle}`,
+      description: `Demo settlement record - ${invoice.projectTitle}`,
       gross: gross,
       net: netReceived,
       taxAllocated: taxAllocated,
       type: "CREDIT"
     });
 
-    this.logActivity(`Invoice ${invoice.id} settled ($${gross}). Tax reserve automatically credited $${taxAllocated}.`, "SETTLEMENT");
+    this.logActivity(`Demo settlement recorded for ${invoice.id} ($${gross}); tax reserve allocation calculated at $${taxAllocated}.`, "SETTLEMENT");
     return invoice;
   }
 

@@ -16,6 +16,7 @@ class App {
     this.setupTabs();
     this.setupEventListeners();
     this.setupVoiceInput();
+    await this.loadRuntimeStatus();
     await this.fetchData();
     await this.loadGuardrails();
 
@@ -38,6 +39,34 @@ class App {
         this.switchTab(targetTab);
       });
     });
+  }
+
+  async loadRuntimeStatus() {
+    const statusEl = document.getElementById("runtime-status");
+    const labelEl = document.getElementById("runtime-mode-label");
+    if (!statusEl || !labelEl) return;
+
+    try {
+      const response = await fetch("/api/status");
+      if (!response.ok) throw new Error("Status unavailable");
+      const status = await response.json();
+      const connected = status.paypalLive && status.geminiLive;
+      statusEl.dataset.mode = connected ? "connected" : "demo";
+      if (connected) {
+        labelEl.textContent = status.paypalEnvironment === "live"
+          ? "Live integrations connected"
+          : "Sandbox integrations connected";
+      } else {
+        const missing = [
+          !status.paypalLive && "PayPal",
+          !status.geminiLive && "Gemini"
+        ].filter(Boolean).join(" + ");
+        labelEl.textContent = `Demo simulation · ${missing} not connected`;
+      }
+    } catch (error) {
+      statusEl.dataset.mode = "offline";
+      labelEl.textContent = "Connection status unavailable";
+    }
   }
 
   switchTab(targetTab) {
@@ -64,7 +93,18 @@ class App {
     if (window.lucide) window.lucide.createIcons();
   }
 
+  escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]);
+  }
+
   setupEventListeners() {
+    document.getElementById("hero-create-invoice")?.addEventListener("click", () => this.switchTab("chat-invoicing"));
     // Sound Toggle Button
     document.getElementById("btn-toggle-sound")?.addEventListener("click", () => this.toggleSound());
 
@@ -186,7 +226,7 @@ class App {
       if (inv.status === "SETTLED") {
         statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-950/60 text-emerald-400 border border-emerald-800/40 flex items-center space-x-1">
           <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-          <span>Settled (PayPal)</span>
+          <span>Recorded settlement</span>
         </span>`;
       } else if (inv.status === "PAST_DUE") {
         statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-950/60 text-rose-400 border border-rose-800/40 flex items-center space-x-1">
@@ -201,7 +241,7 @@ class App {
       } else if (inv.status === "ISSUED") {
         statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-paypal-blue/20 text-paypal-light border border-paypal-blue/40 flex items-center space-x-1">
           <i data-lucide="send" class="w-3.5 h-3.5"></i>
-          <span>Issued via PayPal</span>
+          <span>Invoice link ready</span>
         </span>`;
       } else {
         statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700">
@@ -225,7 +265,7 @@ class App {
           </button>
           <button onclick="window.app.openCheckoutModal('${inv.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-[#003087] bg-[#FFC439] hover:bg-[#F2BA36] transition flex items-center space-x-1">
             <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_37x23.jpg" class="h-3.5 rounded" alt="PP">
-            <span>PayPal Pay</span>
+            <span>Settlement preview</span>
           </button>
         `;
       } else if (inv.status === "DRAFT") {
@@ -249,13 +289,13 @@ class App {
           </div>
           <div>
             <div class="flex items-center space-x-2">
-              <span class="font-bold text-white text-sm">${inv.projectTitle}</span>
+              <span class="font-bold text-white text-sm">${this.escapeHtml(inv.projectTitle)}</span>
               <span class="text-xs font-mono text-slate-500">${inv.id}</span>
             </div>
             <div class="text-xs text-slate-400 mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span>Client: <b class="text-slate-300">${inv.clientName}</b></span>
-              <span>Due: <b class="text-slate-300 font-mono">${inv.dueDate}</b></span>
-              ${inv.paypalInvoiceId ? `<a href="${inv.paypalPaymentLink}" target="_blank" class="text-paypal-light hover:underline font-mono text-[11px] flex items-center space-x-1"><i data-lucide="external-link" class="w-3 h-3"></i><span>PayPal Link</span></a>` : ''}
+              <span>Client: <b class="text-slate-300">${this.escapeHtml(inv.clientName)}</b></span>
+              <span>Due: <b class="text-slate-300 font-mono">${this.escapeHtml(inv.dueDate)}</b></span>
+              ${inv.paypalInvoiceId ? `<a href="${this.escapeHtml(inv.paypalPaymentLink)}" target="_blank" rel="noopener noreferrer" class="text-paypal-light hover:underline font-mono text-[11px] flex items-center space-x-1"><i data-lucide="external-link" class="w-3 h-3"></i><span>PayPal Link</span></a>` : ''}
             </div>
           </div>
         </div>
@@ -266,7 +306,7 @@ class App {
             <div class="mt-0.5">${statusBadge}</div>
           </div>
           <div class="flex items-center space-x-2">
-            <button onclick="window.app.openDocPreview('${inv.id}')" title="Preview Official PayPal Document" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition flex items-center space-x-1">
+            <button onclick="window.app.openDocPreview('${inv.id}')" title="Preview invoice demo template" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 transition flex items-center space-x-1">
               <i data-lucide="file-text" class="w-3.5 h-3.5 text-paypal-light"></i>
               <span class="hidden sm:inline">Doc</span>
             </button>
@@ -548,7 +588,7 @@ class App {
             },
             { 
               field: "taxAllocated", 
-              headerName: "Tax Swept (25%)", 
+              headerName: "Tax Reserve Allocated",
               width: 135, 
               valueFormatter: p => `$${p.value?.toLocaleString()}`,
               cellClass: "font-mono font-bold text-indigo-400 text-right"
@@ -557,7 +597,7 @@ class App {
               field: "type",
               headerName: "Status",
               width: 140,
-              cellRenderer: () => `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">PayPal Settled</span>`
+              cellRenderer: () => `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-800">Demo ledger entry</span>`
             }
           ],
           defaultColDef: {
@@ -734,7 +774,7 @@ class App {
     if (tbody) {
       tbody.innerHTML = (inv.lineItems || []).map(item => `
         <tr class="hover:bg-slate-50 transition">
-          <td class="py-2.5 px-3 font-semibold text-slate-800">${item.description}</td>
+          <td class="py-2.5 px-3 font-semibold text-slate-800">${this.escapeHtml(item.description)}</td>
           <td class="py-2.5 px-3 text-center text-slate-600">${item.quantity || 1}</td>
           <td class="py-2.5 px-3 text-right text-slate-600">$${(item.unitPrice || item.amount)?.toLocaleString()}</td>
           <td class="py-2.5 px-3 text-right font-bold text-slate-900">$${(item.amount || (item.quantity * item.unitPrice))?.toLocaleString()}</td>
@@ -808,7 +848,7 @@ class App {
       const data = await res.json();
       if (data.success) {
         window.demoRunner.currentStep = 0;
-        window.demoRunner.updateBanner("Click <b>\"3-Min Hackathon Demo\"</b> to start the judge walkthrough flow.", 0);
+        window.demoRunner.updateBanner("Click <b>\"3-Min Hackathon Demo\"</b> to start the five-step simulation.", 0);
         await this.fetchData();
         this.openWarRoomFor("INV-2026-081");
         this.switchTab("pipeline");
