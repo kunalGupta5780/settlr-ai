@@ -10,7 +10,7 @@ class DemoRunner {
     this.steps = [
       {
         stepNum: 1,
-        title: "Step 1: Chat-to-Invoice (Gemini + PayPal Invoicing v2)",
+        title: "Step 1: Conversational Invoice Draft",
         guide: "Describe a milestone and review the invoice draft. Gemini is used when configured; this deployment uses the demo parser.",
         action: async () => {
           // Switch to chat invoicing tab
@@ -44,7 +44,7 @@ class DemoRunner {
       },
       {
         stepNum: 4,
-        title: "Step 4: Consensus & PayPal Checkout Link Generated",
+        title: "Step 4: Simulated Agreement",
         guide: "The simulated client accepts the proposed terms. Review the settlement preview before recording it.",
         action: async () => {
           window.app.switchTab("war-room");
