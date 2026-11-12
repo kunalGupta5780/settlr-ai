@@ -251,10 +251,14 @@ app.post("/api/demo/reset", (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🚀 Settlr AI is running at http://localhost:${PORT}`);
-  console.log(`🤖 Mode: ${geminiAgent.isConfigured() ? "Live Gemini AI" : "Simulation Agent"} | ${paypalService.isConfigured() ? "Live PayPal Sandbox" : "PayPal Simulation"}`);
-  console.log(`✨ Open http://localhost:${PORT} in your browser`);
-  console.log(`=======================================================`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🚀 Settlr AI is running at http://localhost:${PORT}`);
+    console.log(`🤖 Mode: ${geminiAgent.isConfigured() ? "Live Gemini AI" : "Simulation Agent"} | ${paypalService.isConfigured() ? "Live PayPal Sandbox" : "PayPal Simulation"}`);
+    console.log(`✨ Open http://localhost:${PORT} in your browser`);
+    console.log(`=======================================================`);
+  });
+}
+
+module.exports = app;
