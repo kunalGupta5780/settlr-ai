@@ -210,6 +210,7 @@ main.max-w-7xl { max-width: 80rem; padding-top: 1.65rem; gap: 1.2rem; }
 }
 .hero-copy { position: relative; z-index: 2; max-width: 620px; }
 .hero-eyebrow { display: flex; align-items: center; gap: .55rem; color: #9eb7ae; font: 700 .66rem/1.2 'JetBrains Mono', monospace; letter-spacing: .12em; }
+.hero-mode-status { margin-left: auto; padding: .35rem .62rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; letter-spacing: 0; }
 .hero-eyebrow-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 13px rgba(181,244,210,.7); }
 .dashboard-hero h1 { margin: 1.1rem 0 .7rem; color: #f6f7f8; font-size: clamp(2.35rem, 5vw, 4.15rem); font-weight: 600; letter-spacing: -.075em; line-height: .99; }
 .dashboard-hero h1 span { color: var(--mint); }
@@ -298,6 +299,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .walkthrough-banner > div > div:first-child { align-items: flex-start; }
   .walkthrough-banner > div > div:first-child > span:last-child { line-height: 1.5; }
   .dashboard-hero { min-height: 0; grid-template-columns: 1fr; padding: 1.5rem; border-radius: 20px; }
+  .hero-eyebrow { flex-wrap: wrap; row-gap: .65rem; padding-right: 3rem; font-size: .58rem; }
+  .hero-mode-status { flex: 0 0 auto; margin-left: 0; font-size: .62rem; }
   .dashboard-hero h1 { font-size: clamp(2.45rem, 11vw, 3.55rem); }
   .dashboard-hero .hero-copy > p { max-width: 100%; font-size: .84rem; }
   .hero-visual { min-height: 205px; margin-top: .7rem; }

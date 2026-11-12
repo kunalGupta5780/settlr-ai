@@ -61,10 +61,6 @@
 
       <!-- Live Engine Badges -->
       <div class="hidden lg:flex items-center gap-2">
-        <div id="runtime-status" class="runtime-status" data-mode="checking" role="status" aria-live="polite">
-          <span class="runtime-dot"></span>
-          <span id="runtime-mode-label">Checking connections</span>
-        </div>
         <div class="runtime-pill"><i data-lucide="shield-check"></i><span>Policy guardrails</span></div>
       </div>
 
@@ -113,7 +109,12 @@
 
     <section class="dashboard-hero" aria-labelledby="dashboard-title">
       <div class="hero-copy">
-        <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span> FREELANCE CASH FLOW, IN ONE PLACE</div>
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-dot"></span><span>FREELANCE CASH FLOW, IN ONE PLACE</span>
+          <span id="runtime-status" class="runtime-status hero-mode-status" data-mode="checking" role="status" aria-live="polite">
+            <span class="runtime-dot"></span><span id="runtime-mode-label">Checking connections</span>
+          </span>
+        </div>
         <h1 id="dashboard-title">Less chasing.<br><span>More getting paid.</span></h1>
         <p>Turn a project update into an invoice, keep late payments moving, and see every settlement in one clear workspace.</p>
         <div class="hero-actions">
